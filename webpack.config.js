@@ -10,7 +10,7 @@ module.exports = {
         use: ['babel-loader'],
       },
       {
-        test: /\.css$/i,
+        test: /\.css|scss$/i,
         exclude: /node_modules/,
         use: [
           'style-loader',
@@ -19,6 +19,10 @@ module.exports = {
             options: {
               modules: true,
             },
+          },
+          {
+            loader: "sass-loader",
+            options: { sourceMap: true }
           },
         ],
       },
