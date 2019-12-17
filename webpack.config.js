@@ -32,7 +32,12 @@ module.exports = {
           },
           {
             loader: "sass-loader",
-            options: { sourceMap: true }
+            options: {
+              sassOptions: {
+                includePaths: [path.resolve(__dirname, 'src')]
+              },
+              sourceMap: true
+            }
           },
         ],
       },
