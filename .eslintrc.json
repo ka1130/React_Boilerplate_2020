@@ -3,10 +3,14 @@
   "extends": ["airbnb", "prettier"],
   "plugins": ["prettier"],
   "rules": {
-    "react/prop-types": 0
+    "import/no-extraneous-dependencies": [
+      "error",
+      { "devDependencies": true }
+    ]
   },
   "env": {
     "browser": true,
-    "node": true
+    "node": true,
+    "jest": true
   }
 }
