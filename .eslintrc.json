@@ -12,5 +12,13 @@
     "browser": true,
     "node": true,
     "jest": true
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"],
+        "paths": ["src"]
+      }
+    }
   }
 }
