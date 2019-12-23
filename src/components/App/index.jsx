@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import MyImage from '../../assets/images/my_image.jpg';
+import MyImage from 'assets/images/my_image.jpg';
 import styles from './styles.module.scss';
 
 const App = ({ title }) => (

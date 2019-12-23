@@ -1,12 +1,10 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import App from '../../components/App';
+import App from 'components/App';
 
-describe("App component", () => {
-  it('foo', () => {
+describe('App component', () => {
+  it('has correct title', () => {
     const wrapper = shallow(<App title="Hello" />);
-    expect(wrapper.length).toEqual(1);
-    console.log(wrapper.debug());
-    expect(1+1).toEqual(2);
+    expect(wrapper.find('h2').text()).toEqual('Hello');
   });
 });
