@@ -3,6 +3,8 @@ const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 
+// const devMode =
+
 module.exports = {
   entry: './src/index.jsx',
   module: {
@@ -51,10 +53,16 @@ module.exports = {
         ],
       },
       {
-        test: /\.(jpg|png)$/,
-        use: {
-          loader: 'url-loader',
-        },
+        // config for images
+        test: /\.(png|svg|jpg|jpeg|gif)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              outputPath: 'images',
+            },
+          },
+        ],
       },
     ],
   },
@@ -75,6 +83,8 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new MiniCssExtractPlugin(),
   ],
+  devtool: 'source-map',
+  // switch off for production!
   devServer: {
     contentBase: './dist',
     hot: true,
