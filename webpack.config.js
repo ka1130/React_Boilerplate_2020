@@ -3,8 +3,9 @@ const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
-// const devMode =
+const devMode = process.env.NODE_ENV || 'development';
 
 module.exports = {
   entry: './src/index.jsx',
@@ -27,7 +28,6 @@ module.exports = {
         test: /\.css|scss$/i,
         exclude: /node_modules/,
         use: [
-          // 'style-loader',
           {
             loader: MiniCssExtractPlugin.loader,
             options: {
@@ -42,7 +42,7 @@ module.exports = {
                 localIdentName: '[path]__[local]--[hash:base64:5]',
                 context: path.resolve(__dirname, 'src'),
               },
-              sourceMap: true,
+              sourceMap: !!devMode,
             },
           },
           {
@@ -51,7 +51,7 @@ module.exports = {
               sassOptions: {
                 includePaths: [path.resolve(__dirname, 'src')],
               },
-              sourceMap: true,
+              sourceMap: !!devMode,
             },
           },
         ],
@@ -80,6 +80,9 @@ module.exports = {
   },
   optimization: {
     minimizer: [
+      new TerserPlugin({
+        test: /\.js(\?.*)?$/i,
+      }),
       new OptimizeCSSAssetsPlugin({
         cssProcessorOptions: {
           safe: true,
@@ -101,7 +104,7 @@ module.exports = {
       chunkFilename: '[id].css',
     }),
   ],
-  devtool: 'source-map',
+  devtool: devMode ? 'source-map' : '',
   // switch off for production!
   devServer: {
     contentBase: './dist',
