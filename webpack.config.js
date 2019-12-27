@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 // const devMode =
 
@@ -26,10 +27,13 @@ module.exports = {
         test: /\.css|scss$/i,
         exclude: /node_modules/,
         use: [
-          'style-loader',
-          // {
-          //   loader: MiniCssExtractPlugin.loader,
-          // },
+          // 'style-loader',
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              hmr: false,
+            },
+          },
           {
             loader: 'css-loader',
             options: {
@@ -53,7 +57,6 @@ module.exports = {
         ],
       },
       {
-        // config for images
         test: /\.(png|svg|jpg|jpeg|gif)$/,
         use: [
           {
@@ -75,13 +78,28 @@ module.exports = {
     publicPath: '/',
     filename: 'bundle.js',
   },
+  optimization: {
+    minimizer: [
+      new OptimizeCSSAssetsPlugin({
+        cssProcessorOptions: {
+          safe: true,
+          discardComments: {
+            removeAll: true,
+          },
+        },
+      }),
+    ],
+  },
   plugins: [
     new HtmlWebPackPlugin({
       template: './src/assets/index.html',
       filename: './index.html',
     }),
     new webpack.HotModuleReplacementPlugin(),
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+      chunkFilename: '[id].css',
+    }),
   ],
   devtool: 'source-map',
   // switch off for production!
