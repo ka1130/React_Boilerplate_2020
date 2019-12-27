@@ -1,6 +1,7 @@
-const path = require("path");
+const path = require('path');
 const webpack = require('webpack');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const HtmlWebPackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: './src/index.jsx',
@@ -10,6 +11,14 @@ module.exports = {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: ['babel-loader'],
+      },
+      {
+        test: /\.html$/,
+        use: [
+          {
+            loader: 'html-loader',
+          },
+        ],
       },
       {
         test: /\.css|scss$/i,
@@ -23,21 +32,21 @@ module.exports = {
             loader: 'css-loader',
             options: {
               modules: {
-                  hashPrefix: 'hash',
-                  localIdentName: '[path]__[local]--[hash:base64:5]',
-                  context: path.resolve(__dirname, 'src'),
-              },														
-              sourceMap: true
-            }
+                hashPrefix: 'hash',
+                localIdentName: '[path]__[local]--[hash:base64:5]',
+                context: path.resolve(__dirname, 'src'),
+              },
+              sourceMap: true,
+            },
           },
           {
-            loader: "sass-loader",
+            loader: 'sass-loader',
             options: {
               sassOptions: {
-                includePaths: [path.resolve(__dirname, 'src')]
+                includePaths: [path.resolve(__dirname, 'src')],
               },
-              sourceMap: true
-            }
+              sourceMap: true,
+            },
           },
         ],
       },
@@ -51,7 +60,7 @@ module.exports = {
   },
   resolve: {
     extensions: ['*', '.js', '.jsx', '.scss', '.css'],
-    modules: [path.join(__dirname, "src/"), "node_modules/"]
+    modules: [path.join(__dirname, 'src/'), 'node_modules/'],
   },
   output: {
     path: `${__dirname}/dist`,
@@ -59,8 +68,12 @@ module.exports = {
     filename: 'bundle.js',
   },
   plugins: [
+    new HtmlWebPackPlugin({
+      template: './src/assets/index.html',
+      filename: './index.html',
+    }),
     new webpack.HotModuleReplacementPlugin(),
-    new MiniCssExtractPlugin()
+    new MiniCssExtractPlugin(),
   ],
   devServer: {
     contentBase: './dist',
