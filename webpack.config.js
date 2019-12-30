@@ -2,7 +2,6 @@ const path = require('path');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
 const devMode = process.env.NODE_ENV || 'development';
@@ -79,17 +78,18 @@ module.exports = {
     filename: 'bundle.js',
   },
   optimization: {
+    minimize: !!devMode,
     minimizer: [
       new TerserPlugin({
         test: /\.js(\?.*)?$/i,
-      }),
-      new OptimizeCSSAssetsPlugin({
-        cssProcessorOptions: {
-          safe: true,
-          discardComments: {
-            removeAll: true,
-          },
+        sourceMap: !!devMode,
+        terserOptions: {
+          keep_classnames: true,
+          keep_fnames: true,
         },
+      }),
+      new MiniCssExtractPlugin({
+        filename: 'style.[contenthash].css',
       }),
     ],
   },
@@ -100,14 +100,14 @@ module.exports = {
     }),
     new webpack.HotModuleReplacementPlugin(),
     new MiniCssExtractPlugin({
-      filename: '[name].css',
+      filename: 'style.[contenthash].css',
       chunkFilename: '[id].css',
     }),
   ],
   devtool: devMode ? 'source-map' : '',
-  // switch off for production!
   devServer: {
     contentBase: './dist',
     hot: true,
+    // switch off for production!
   },
 };

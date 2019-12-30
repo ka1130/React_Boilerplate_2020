@@ -4,7 +4,7 @@ import App from 'components/App';
 
 const title = 'React with Webpack and Babel';
 
-console.log(title);
+console.log(title, 'FOOOOO');
 
 ReactDOM.render(
   <App title={title} />,
