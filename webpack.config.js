@@ -99,7 +99,9 @@ module.exports = {
       template: './src/assets/index.html',
       filename: './index.html',
     }),
-    new CleanWebpackPlugin(),
+    new CleanWebpackPlugin({
+      cleanAfterEveryBuildPatterns: ['dist'],
+    }),
     new webpack.HotModuleReplacementPlugin(),
     new MiniCssExtractPlugin({
       filename: 'style.[contenthash].css',
