@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import MyImage from 'assets/images/my_image.jpg';
 import styles from './styles.module.scss';
 
-console.log('app');
-
 const App = ({ title }) => (
   <div className={styles.wrapper}>
     <h2 className={styles.title}>{title}</h2>
